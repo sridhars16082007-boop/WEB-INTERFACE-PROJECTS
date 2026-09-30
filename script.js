@@ -3,13 +3,13 @@ const projects = [
         number: 1,
         title: "Project 1",
         description: "Web interface project built with modern frontend technologies.",
-        link: "#"
+        link: "./project%201.html"
     },
     {
         number: 2,
         title: "Project 2",
         description: "Interactive web application created as part of my college work.",
-        link: "#"
+        link: "./project2.html"
     },
     {
         number: 3,
@@ -77,7 +77,11 @@ projects.forEach((project) => {
 
         <p>${project.description}</p>
 
-        <a class="project-button" href="${project.link}">
+        <a
+            class="project-button"
+            href="${project.link}"
+            ${project.link === "#" ? 'onclick="return false;"' : ""}
+        >
             View Project
         </a>
     `;
