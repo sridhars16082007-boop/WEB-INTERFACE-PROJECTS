@@ -1,6 +1,6 @@
 
 import Gaming from "./assets/Gaming.jpg";
-import Music from "./assets/music.jpg";
+import Music from "./assets/Music.jpg";
 import Reading from "./assets/Reading.jpg";
 import Photography from "./assets/Photography.jpg";
 import Traveling from "./assets/Travelling.jpg";
