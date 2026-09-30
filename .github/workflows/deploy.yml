@@ -19,15 +19,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Checkout repository
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
 
+      # =========================
       # Project 3
+      # =========================
       - name: Install Project 3 dependencies
         working-directory: project-3
         run: npm ci
@@ -36,7 +40,9 @@ jobs:
         working-directory: project-3
         run: npm run build
 
+      # =========================
       # Project 4
+      # =========================
       - name: Install Project 4 dependencies
         working-directory: project-4
         run: npm ci
@@ -45,7 +51,9 @@ jobs:
         working-directory: project-4
         run: npm run build
 
+      # =========================
       # Project 5
+      # =========================
       - name: Install Project 5 dependencies
         working-directory: project-5
         run: npm ci
@@ -54,7 +62,9 @@ jobs:
         working-directory: project-5
         run: npm run build
 
+      # =========================
       # Project 6
+      # =========================
       - name: Install Project 6 dependencies
         working-directory: project-6
         run: npm ci
@@ -63,7 +73,9 @@ jobs:
         working-directory: project-6
         run: npm run build
 
+      # =========================
       # Project 7
+      # =========================
       - name: Install Project 7 dependencies
         working-directory: project-7
         run: npm ci
@@ -72,7 +84,9 @@ jobs:
         working-directory: project-7
         run: npm run build
 
+      # =========================
       # Project 8
+      # =========================
       - name: Install Project 8 dependencies
         working-directory: project-8
         run: npm ci
@@ -81,7 +95,9 @@ jobs:
         working-directory: project-8
         run: npm run build
 
+      # =========================
       # Project 9
+      # =========================
       - name: Install Project 9 dependencies
         working-directory: project-9
         run: npm ci
@@ -90,7 +106,9 @@ jobs:
         working-directory: project-9
         run: npm run build
 
+      # =========================
       # Project 10
+      # =========================
       - name: Install Project 10 dependencies
         working-directory: project-10
         run: npm ci
@@ -99,51 +117,97 @@ jobs:
         working-directory: project-10
         run: npm run build
 
-      # Create final Pages folder
+      # =========================
+      # Prepare GitHub Pages
+      # =========================
       - name: Prepare deployment folder
         shell: bash
         run: |
+          rm -rf _site
           mkdir -p _site
 
-          # Main showcase
+          # =========================
+          # Main Showcase
+          # =========================
           cp index.html _site/
           cp style.css _site/
           cp script.js _site/
 
+          # =========================
           # Project 1 and Project 2
+          # =========================
           cp "project 1.html" "_site/project 1.html"
           cp project2.html _site/
 
-          # React projects
+          # =========================
+          # React Project 3
+          # =========================
           mkdir -p _site/project-3
-          cp -r project-3/dist/* _site/project-3/
+          cp -a project-3/dist/. _site/project-3/
 
+          # =========================
+          # React Project 4
+          # =========================
           mkdir -p _site/project-4
-          cp -r project-4/dist/* _site/project-4/
+          cp -a project-4/dist/. _site/project-4/
 
+          # =========================
+          # React Project 5
+          # =========================
           mkdir -p _site/project-5
-          cp -r project-5/dist/* _site/project-5/
+          cp -a project-5/dist/. _site/project-5/
 
+          # =========================
+          # React Project 6
+          # =========================
           mkdir -p _site/project-6
-          cp -r project-6/dist/* _site/project-6/
+          cp -a project-6/dist/. _site/project-6/
 
+          # =========================
+          # React Project 7
+          # =========================
           mkdir -p _site/project-7
-          cp -r project-7/dist/* _site/project-7/
+          cp -a project-7/dist/. _site/project-7/
 
+          # =========================
+          # React Project 8
+          # =========================
           mkdir -p _site/project-8
-          cp -r project-8/dist/* _site/project-8/
+          cp -a project-8/dist/. _site/project-8/
 
+          # =========================
+          # React Project 9
+          # =========================
           mkdir -p _site/project-9
-          cp -r project-9/dist/* _site/project-9/
+          cp -a project-9/dist/. _site/project-9/
 
+          # =========================
+          # React Project 10
+          # =========================
           mkdir -p _site/project-10
-          cp -r project-10/dist/* _site/project-10/
+          cp -a project-10/dist/. _site/project-10/
 
+          # =========================
+          # Verify React entry files
+          # =========================
+          echo "===== Project 3 index.html ====="
+          cat _site/project-3/index.html
+
+          echo "===== Project 4 index.html ====="
+          cat _site/project-4/index.html
+
+          echo "===== Project 10 index.html ====="
+          cat _site/project-10/index.html
+
+      # Upload GitHub Pages artifact
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: _site
 
+  # =========================
+  # Deploy
+  # =========================
   deploy:
     environment:
       name: github-pages
