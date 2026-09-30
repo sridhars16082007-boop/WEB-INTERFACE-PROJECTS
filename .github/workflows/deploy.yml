@@ -1,0 +1,159 @@
+name: Deploy Web Interface Projects
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      # Project 3
+      - name: Install Project 3 dependencies
+        working-directory: project-3
+        run: npm ci
+
+      - name: Build Project 3
+        working-directory: project-3
+        run: npm run build
+
+      # Project 4
+      - name: Install Project 4 dependencies
+        working-directory: project-4
+        run: npm ci
+
+      - name: Build Project 4
+        working-directory: project-4
+        run: npm run build
+
+      # Project 5
+      - name: Install Project 5 dependencies
+        working-directory: project-5
+        run: npm ci
+
+      - name: Build Project 5
+        working-directory: project-5
+        run: npm run build
+
+      # Project 6
+      - name: Install Project 6 dependencies
+        working-directory: project-6
+        run: npm ci
+
+      - name: Build Project 6
+        working-directory: project-6
+        run: npm run build
+
+      # Project 7
+      - name: Install Project 7 dependencies
+        working-directory: project-7
+        run: npm ci
+
+      - name: Build Project 7
+        working-directory: project-7
+        run: npm run build
+
+      # Project 8
+      - name: Install Project 8 dependencies
+        working-directory: project-8
+        run: npm ci
+
+      - name: Build Project 8
+        working-directory: project-8
+        run: npm run build
+
+      # Project 9
+      - name: Install Project 9 dependencies
+        working-directory: project-9
+        run: npm ci
+
+      - name: Build Project 9
+        working-directory: project-9
+        run: npm run build
+
+      # Project 10
+      - name: Install Project 10 dependencies
+        working-directory: project-10
+        run: npm ci
+
+      - name: Build Project 10
+        working-directory: project-10
+        run: npm run build
+
+      # Create final Pages folder
+      - name: Prepare deployment folder
+        shell: bash
+        run: |
+          mkdir -p _site
+
+          # Main showcase
+          cp index.html _site/
+          cp style.css _site/
+          cp script.js _site/
+
+          # Project 1 and Project 2
+          cp "project 1.html" "_site/project 1.html"
+          cp project2.html _site/
+
+          # React projects
+          mkdir -p _site/project-3
+          cp -r project-3/dist/* _site/project-3/
+
+          mkdir -p _site/project-4
+          cp -r project-4/dist/* _site/project-4/
+
+          mkdir -p _site/project-5
+          cp -r project-5/dist/* _site/project-5/
+
+          mkdir -p _site/project-6
+          cp -r project-6/dist/* _site/project-6/
+
+          mkdir -p _site/project-7
+          cp -r project-7/dist/* _site/project-7/
+
+          mkdir -p _site/project-8
+          cp -r project-8/dist/* _site/project-8/
+
+          mkdir -p _site/project-9
+          cp -r project-9/dist/* _site/project-9/
+
+          mkdir -p _site/project-10
+          cp -r project-10/dist/* _site/project-10/
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    runs-on: ubuntu-latest
+
+    needs: build
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
